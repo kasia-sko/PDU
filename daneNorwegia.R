@@ -1,4 +1,5 @@
 #Miłego dnia - Ada 2
+# dobrej nocy - Kasia
 
 # dane Norwegia białe noce
 Norwegia <- read.csv("Norwegia.csv")
