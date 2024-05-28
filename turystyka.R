@@ -1,4 +1,7 @@
 library(dplyr)
+library(ggplot2)
+library(config)
+library(plotly)
 turystyka <- read.csv("turystyka.csv", row.names = NULL)
 turystyka <- turystyka[ ,c("CountryName", "X2014", "X2015", "X2016", "X2017", "X2018", "X2019")]
 turystyka <- turystyka %>%
@@ -83,3 +86,20 @@ plot_ly(data = turysci,
     displayModeBar = TRUE, 
     responsive = TRUE
   )
+
+
+########################
+# wykres bąbelkowy
+p <- ggplot(turysci, aes(x = LadderScore, y = mean_temp_year, size = mean_tourists_sum, text = CountryName)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  scale_size_continuous(range = c(3, 15), name = "Tourists") +
+  labs(
+    title = "ZALEŻNOŚĆ ILOŚCI TURYSTÓW OD INDEKTU SZCZĘŚCIA I TEMPERARYRY",
+    x = "Indeks szczęścia",
+    y = "Srednia roczna temperatura"
+  ) +
+  theme_minimal()
+
+ggplotly(p, tooltip = "text")
+
+
