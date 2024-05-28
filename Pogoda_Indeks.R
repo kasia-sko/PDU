@@ -38,6 +38,12 @@ pogodaIndeks <- pogodaIndeks %>%
   inner_join(Kontynenty[c("Entity", "Countries.Continents")], by = c("country_name" = "Entity")) %>%
   rename(Continents = Countries.Continents)
 
+minimum <- min(pogodaIndeks$mean_temp_year)
+maksimum <- max(pogodaIndeks$mean_temp_year)
+pogodaIndeks <- pogodaIndeks %>%
+  mutate(unormowana_temp = (mean_temp_year - minimum)/(maksimum - minimum))
+pogodaIndeks
+
 write.csv(pogodaIndeks, "C:\\Users\\Kasia\\Desktop\\PDU\\PracaDomowa2\\aplikcja1\\pogodaIndeks")
 # test czy średnie liczone po miesiącach są takie same jak po średnich rocznych
 # test <- DanePogodowe %>%

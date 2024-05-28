@@ -8,7 +8,7 @@ turystyka <- turystyka %>%
 turystyka <- na.omit(turystyka)
 turysci <- turystyka %>%
    inner_join(pogodaIndeks, by = c("CountryName" = "country_name"))
-
+turysci
 ?cor
 
 #########################################################################################

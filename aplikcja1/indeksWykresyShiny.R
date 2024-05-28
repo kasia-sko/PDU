@@ -8,9 +8,10 @@ pogodaIndeksShiny
 choices <- setNames(names(pogodaIndeksShiny), 
                     c("X", "Id kraju", "Nazwa kraju", 
                       "Średnia roczna temperatura", "Średnia temperatura w najcieplejszym miesiącu", "Średnia temperatura w najzminiejszym miesiącu", 
-                      "Największa różnica temperatur", "Maksymkna temperatura", "Minimalna temperatura", 
+                      "Największa różnica temperatur", "Maksymalna temperatura", "Minimalna temperatura", 
                       "Roczna suma opadów", "Średnia długość dnia", "Średnia ilość godzin słonecznych", 
                       "Współczynnik szczęścia", "Kontynent"))
+filtered_choices <- choices[c(4,5,6,7,8,9,10,12)]
 
 ui <- fluidPage(
   tags$head(tags$style(HTML("
@@ -18,7 +19,7 @@ ui <- fluidPage(
       text-align: center;
     }
   "))),
-  div(id = "title", titlePanel("ZALEŻNOŚĆ POGODY OD WSPÓŁCZYNNIKA SZCZĘŚCIA")),
+  div(id = "title", titlePanel("ZALEŻNOŚĆ INDEKSU SZCZĘŚCIA OD POGODY")),
   br(),
   
   sidebarLayout(
@@ -27,7 +28,7 @@ ui <- fluidPage(
         inputId = "yvar",
         label = "Wybierz wartość na osi Y:",
         #choices = names(pogodaIndeksShiny),
-        choices <- choices[c(4,5,6,7,8,9,10,12)], #numery ktore chcemy: 
+        choices = filtered_choices, #numery ktore chcemy: 
         selected = "mean_temp_year"
       ),
       #textOutput("correlation_text")
@@ -42,18 +43,18 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output$wykres <- renderPlotly({
+    yvar_label <- names(filtered_choices)[filtered_choices == input$yvar]
     p2 <- plot_ly(data = pogodaIndeksShiny, 
-                  y = as.formula(paste0("~`", input$yvar, "`")), 
-                  x = ~LadderScore, 
+                  x = as.formula(paste0("~`", input$yvar, "`")), 
+                  y = ~LadderScore, 
                   type = 'scatter', 
                   mode = 'markers', 
                   color = ~Continents,
                   text = ~paste('Kraj:', country_name, '<br>LadderScore:', round(LadderScore, digits = 2), '<br>', input$yvar, ':', round(get(input$yvar), digits = 2)), 
                   hoverinfo = 'text') %>%
       layout(
-        yaxis = list(title =input$yvar),
-        xaxis = list(title = 'LadderScore'),
-        title = 'Scatter Plot of LadderScore vs Mean Temp Year by Continents',
+        xaxis = list(title = yvar_label),
+        yaxis = list(title = 'Indeks szczęścia'),
         width = 750,
         height = 590
       ) %>%
