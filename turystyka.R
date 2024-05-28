@@ -94,7 +94,7 @@ p <- ggplot(turysci, aes(x = LadderScore, y = mean_temp_year, size = mean_touris
   geom_point(alpha = 0.5, color = "blue") +
   scale_size_continuous(range = c(3, 15), name = "Tourists") +
   labs(
-    title = "ZALEŻNOŚĆ ILOŚCI TURYSTÓW OD INDEKTU SZCZĘŚCIA I TEMPERATURY",
+    title = "ZALEŻNOŚĆ ILOŚCI TURYSTÓW OD INDEKSU SZCZĘŚCIA I TEMPERATURY",
     x = "Indeks szczęścia",
     y = "Średnia roczna temperatura"
   ) +
